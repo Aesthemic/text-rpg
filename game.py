@@ -1,20 +1,14 @@
 # Work-in-progress text-based game.
-# The idea is to build a game similar to the one I plan to build for IRC for practice.
-# I can test ideas in this and improve my coding skills before I start taking it to the IRC RPG.
-# I will probably put this up on Github in case anyone wants to mess around with it / test it / play it.
-# I plan to at least have the game be playable, but probably at a shallow level.
-# This will be shared on Github in case anyone wants to mess around with the code or make their own game from it.
 
-# Necessary for clearing the screen and the save system. Will simplify this at a later date.
-from os import system, name, walk, path
-
-# For some reason I have to have this here... will investigate the cause at some point to reduce imports.
 import os
+from pathlib import Path
 
 import sys
 
 # Used for save files and other configuration files.
 import json
+
+# Importing custom modules.
 import get
 import put
 import common
@@ -27,7 +21,7 @@ def main_menu():
 	print("  | | _____  _| |_  | |_/ / |_/ / |  \\/")
 	print("  | |/ _ \\ \\/ / __| |    /|  __/| | __ ")
 	print("  | |  __/>  <| |_  | |\\ \\| |   | |_\\ \\")
-	print("  \\_/\\___/_/\\_\\\\__| \\_| \\_\\_|    \\____/")
+	print("  \\_/\\___/_/\\_\\\\__| \\_| \\_\\_|    \\____/\n\n")
 	print("1. New Game")
 	print("2. Load Game")
 	print("3. Credits")
@@ -154,19 +148,32 @@ def load_game():
 # This function starts the process of creating a new character.
 def start_game():
 	common.clear_screen()
-	print("Welcome to the strange world of GameWars.")
+	print("Welcome to this strange world.")
 	print("May I ask your name?")
 	character_name = input("> ")
 	print(f"Hello, {character_name}, it is a pleasure to meet you.")
+	character_filename = "save/" + character_name + ".json"
+	character_file = Path(character_filename)
 	if len(character_name) > 20:
+		common.clear_screen()
 		print("Your name needs to be less than 20 characters. Please choose another name.")
 		print("Press any key to continue.")
 		input("?")
 		start_game()
-	else: 
+	if character_file.is_file():
+		common.clear_screen()
+		print("There is already a character with that name. You'll have to choose another one.")
+		print("Press enter to continue.")
+		input("?")
+		start_game()
+	else:
 		global character_data
-		character_data = {"character_name":character_name,"level":1,"current_health":100,"current_magic":100,"attributes":{"health":100,"magic":100,"strength":10,"dexterity":10,"endurance":10,"agility":10,"intelligence":10,"spirit":10,"vitality":10,"luck":0},"temp_attributes":{"health":0,"magic":0,"strength":0,"dexterity":0,"endurance":0,"agility":0,"intelligence":0,"spirit":0,"vitality":0,"luck":0},"item_attributes":{"health":0,"magic":0,"strength":0,"dexterity":0,"endurance":0,"agility":0,"intelligence":0,"spirit":0,"vitality":0,"luck":0},"progress":{"exp":0,"exp_to_level":100},"currencies":{"gold":0,"honor":0},"items":{},"bank":{},"quests":{},"travel":"starting-village"}
+		character_data = {"character_name":character_name,"level":1,"current_health":100,"current_magic":100,"attributes":{"health":100,"magic":100,"strength":10,"dexterity":10,"endurance":10,"agility":10,"intelligence":10,"spirit":10,"vitality":10,"luck":0},"temp_attributes":{"health":0,"magic":0,"strength":0,"dexterity":0,"endurance":0,"agility":0,"intelligence":0,"spirit":0,"vitality":0,"luck":0},"item_attributes":{"health":0,"magic":0,"strength":0,"dexterity":0,"endurance":0,"agility":0,"intelligence":0,"spirit":0,"vitality":0,"luck":0},"progress":{"experience":0,"experience_to_level":100},"currencies":{"gold":0,"honor":0},"items":{},"bank":{},"quests":{},"travel":"starting-village"}
+		character_filename = "save/" + character_name + ".json"
+		with open(character_filename, 'x') as f:
+			json.dump(character_data, f)
 		game_menu()
+
 
 # Function to view the stats of either the playable character or an NPC.
 # a = 'npc' or 'player' depending on whether the target is the playable character or an NPC.
@@ -180,7 +187,18 @@ def view_stats(a, b):
 			f.close()
 		print("Character stats for: " + character_data["character_name"])
 		print("Basic Information:")
+		print("Level: " + str(get.level("player", b)))
+		print("Health: " + str(get.health("player", b)) + " \\ " + str(get.atr("player", b, "health")))
+		print("Magic: " + str(get.magic("player", b)) + " \\ " + str(get.atr("player", b, "magic")))
 		print("Experience: " + str(get.exp(a, b)) + " \\ " + str(get.toexp(a, b)))
+		print("Strength: " + str(get.atr("player", b, "strength")))
+		print("Dexterity: " + str(get.atr("player", b, "dexterity")))
+		print("Endurance: " + str(get.atr("player", b, "endurance")))
+		print("Agility: " + str(get.atr("player", b, "agility")))
+		print("Intelligence: " + str(get.atr("player", b, "intelligence")))
+		print("Spirit: " + str(get.atr("player", b, "spirit")))
+		print("Vitality: " + str(get.atr("player", b, "vitality")))
+		print("Luck: " + str(get.atr("player", b, "luck")))
 		print("Press enter to continue.")
 		input("?")
 		game_menu()

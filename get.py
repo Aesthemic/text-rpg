@@ -125,3 +125,20 @@ def magic(a, b):
 			npc_data = json.load(f)
 			f.close()
 		return npc_data["current_magic"]
+
+# Function to return current level.
+# a = 'npc' or 'player' depending on whether the target is the playable character or an NPC.
+# b = name of the character or NPC.
+def level(a, b):
+	if a == "player":
+		character_filename = "save/" + b + ".json"
+		with open(character_filename, 'r') as f:
+			character_data = json.load(f)
+			f.close()
+		return character_data["level"]
+	else:
+		npc_filename = "npcs/" + b + ".json"
+		with open(npc_filename, 'r') as f:
+			npc_data = json.load(f)
+			f.close()
+		return npc_data["level"]
