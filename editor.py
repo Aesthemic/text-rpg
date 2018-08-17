@@ -15,12 +15,12 @@ def clear_screen():
 # Main menu for the editor. Allows the user to access another editor.
 def main_menu():
 	clear_screen()
-	print("  ________                      __      __                      ")
-	print(" /  _____/_____    _____   ____/  \\    /  \\_____ _______  ______")
-	print("/   \\  ___\\__  \\  /     \\_/ __ \\   \\/\\/   /\\__  \\\\_  __ \\/  ___/")
-	print("\\    \\_\\  \\/ __ \\|  Y Y  \\  ___/\\        /  / __ \\|  | \\/\\___ \\ ")
-	print(" \\______  (____  /__|_|  /\\___  >\\__/\\  /  (____  /__|  /____  >")
-	print("        \\/     \\/      \\/     \\/      \\/        \\/           \\/ \n\n\n")
+	print(" _____         _    ____________ _____ ")
+	print("|_   _|       | |   | ___ \\ ___ \\  __ \\")
+	print("  | | _____  _| |_  | |_/ / |_/ / |  \\/")
+	print("  | |/ _ \\ \\/ / __| |    /|  __/| | __ ")
+	print("  | |  __/>  <| |_  | |\\ \\| |   | |_\\ \\")
+	print("  \\_/\\___/_/\\_\\\\__| \\_| \\_\\_|    \\____/\n\n")
 	print("Select Your Editor:")
 	print("1. Location Editor")
 	print("2. Item Editor")
