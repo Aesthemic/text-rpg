@@ -22,12 +22,12 @@ import common
 # This function displays the main menu for the game. The user is able to start or load a game, view credits, edit game-wide settings, and exit the game from here.
 def main_menu():
 	common.clear_screen()
-	print("  ________                      __      __                      ")
-	print(" /  _____/_____    _____   ____/  \\    /  \\_____ _______  ______")
-	print("/   \\  ___\\__  \\  /     \\_/ __ \\   \\/\\/   /\\__  \\\\_  __ \\/  ___/")
-	print("\\    \\_\\  \\/ __ \\|  Y Y  \\  ___/\\        /  / __ \\|  | \\/\\___ \\ ")
-	print(" \\______  (____  /__|_|  /\\___  >\\__/\\  /  (____  /__|  /____  >")
-	print("        \\/     \\/      \\/     \\/      \\/        \\/           \\/ \n\n\n")
+	print(" _____         _    ____________ _____ ")
+	print("|_   _|       | |   | ___ \\ ___ \\  __ \\")
+	print("  | | _____  _| |_  | |_/ / |_/ / |  \\/")
+	print("  | |/ _ \\ \\/ / __| |    /|  __/| | __ ")
+	print("  | |  __/>  <| |_  | |\\ \\| |   | |_\\ \\")
+	print("  \\_/\\___/_/\\_\\\\__| \\_| \\_\\_|    \\____/")
 	print("1. New Game")
 	print("2. Load Game")
 	print("3. Credits")
