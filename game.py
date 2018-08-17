@@ -395,9 +395,10 @@ def shop_menu():
 			input("?")
 			shop_menu()
 
-# Function to enable players to buy and sell items from a shop.
+# Function to enable players to buy and sell items from a shop. Still need to work on this.
 def go_shop(id):
 	common.clear_screen()
+	main_menu()
 
 # Have to actually invoke the main menu for it to show up.
 main_menu()
