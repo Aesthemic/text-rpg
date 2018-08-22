@@ -51,7 +51,8 @@ def main_menu():
 # Displays credits related to development of the game.
 def credits():
 	common.clear_screen()
-	print("This \"game\" was made by Aesthemic.")
+	print("This game engine was developed by Aesthemic.")
+	print("Github: https://github.com/Aesthemic/text-rpg")
 	print("Twitter: https://www.twitter.com/aesthemic")
 	print("Discord: Aesthemic#0573")
 	print("IRC: Aesthemic in #lounge on irc.digibase.ca")
@@ -64,12 +65,9 @@ def credits():
 def game_menu():
 	common.clear_screen()
 	print("Game Menu")
-	global location_data
 	with open("data/locations.json", 'r') as f:
 		location_data = json.load(f)
-	global shops_data
-	with open("data/shops.json", 'r') as f:
-		shops_data = json.load(f)
+		f.close()
 	curr_loc_id = character_data["travel"]
 	curr_loc_nm = location_data[curr_loc_id]["text-name"]
 	print("You're currently in " + str(curr_loc_nm) + ".")
@@ -116,6 +114,7 @@ def save_game():
 	savename = "save/" + character_name + ".json"
 	with open(savename, 'w') as f:
 		json.dump(character_data, f)
+		f.close()
 	print("You successfully saved the game.")
 	print("Press return to continue.")
 	input("?")
@@ -135,6 +134,7 @@ def load_game():
 	character_filename = "save/" + character_name + ".json"
 	with open(character_filename, 'r') as f:
 		character_data = json.load(f)
+		f.close()
 	if character_data is None:
 		print("Invalid character name. Please choose one from the list.")
 		print("Press return to continue.")
@@ -160,7 +160,7 @@ def start_game():
 		print("Press any key to continue.")
 		input("?")
 		start_game()
-	if character_file.is_file():
+	elif character_file.is_file():
 		common.clear_screen()
 		print("There is already a character with that name. You'll have to choose another one.")
 		print("Press enter to continue.")
@@ -355,6 +355,12 @@ def explore():
 def shop_menu():
 	common.clear_screen()
 	curr_loc_id = character_data["travel"]
+	with open("data/shops.json", 'r') as f:
+		shops_data = json.load(f)
+		f.close()
+	with open("data/locations.json", 'r') as f:
+		location_data = json.load(f)
+		f.close()
 	if not location_data[curr_loc_id]["shops"]:
 		print("There are no shops here to find.")
 		print("Try visiting a town or village.")
@@ -384,7 +390,7 @@ def shop_menu():
 			print("Press return to continue.")
 			input("?")
 			shop_menu()
-		if selection <= shop_number:
+		elif selection <= shop_number:
 			selection = selection - 1
 			selection = list(shop_names)[selection]
 			go_shop(selection)
@@ -398,7 +404,46 @@ def shop_menu():
 # Function to enable players to buy and sell items from a shop. Still need to work on this.
 def go_shop(id):
 	common.clear_screen()
-	main_menu()
+	with open("data/shops.json", 'r') as f:
+		shops_data = json.load(f)
+		f.close()
+	print(shops_data[id]["text-name"])
+	print(shops_data[id]["text"])
+	print("What would you like to do?")
+	print("1. Buy Item")
+	print("2. Sell Item")
+	print("3. Return to Town")
+	selection = input("> ")
+	if selection == "1":
+		buy_item(id)
+	elif selection == "2":
+		sell_item(id)
+	elif selection == "3":
+		game_menu()
+
+def buy_item(id):
+	common.clear_screen()
+	with open("data/shops.json", 'r') as f:
+		shops_data = json.load(f)
+		f.close()
+	with open("data/items.json", 'r') as f:
+		items_data = json.load(f)
+		f.close()
+	print("Which item would you like to buy?")
+	item_list = shops_data[id]["inventory"]
+	item_number = 1
+	for key in item_list:
+		print(str(item_number) + ". " + items_data[key]["text-name"] + ": " + str(shops_data[id]["inventory"][key]))
+	selection = input("> ")
+	# Will continue working on this later to see if the player has the gold to buy the item or not and whether they selected a valid item to purchase.
+	game_menu()
+
+def sell_item(id):
+	common.clear_screen()
+	with open("data/items.json", 'r') as f:
+		items_data = json.load(f)
+		f.close()
+	game_menu()
 
 # Have to actually invoke the main menu for it to show up.
 main_menu()
